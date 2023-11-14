@@ -42,3 +42,72 @@ sources:
           - name: shipping_fee
           - name: log_cost
           - name: ship_cost
+
+models:
+  - name: stg_raw_sales
+    columns: 
+      - name: date_date
+      - name: orders_id
+      - name: pdt_id
+      - name: revenue
+      - name: quantity
+  - name: stg_raw__product
+    columns:
+      - name: products_id
+      - name: purchase_price
+        description: cast (purchse_price AS FLOAT64)
+  - name: stg_raw__ship
+    columns:
+      - name: orders_id
+      - name: shipping_fee
+      - name: logcost
+      - name: ship_cost
+  - name: int_sales_margin
+    columns:
+      - name: orders_id
+      - name: date_date
+      - name: revenue
+      - name: quantity
+      - name: purchase_cost
+        description: round((p.purchase_price*s.quantity),2)
+      - name: margin
+        description: round (s.revenue - (p.purchase_price*s.quantity),2)
+  - name: int_orders_margin
+    columns:
+      - name: orders_id
+      - name: date_date
+      - name: revenue
+        description: round (sum (revenue),2)
+      - name: quantity
+        description: round (sum (quantity),2)
+      - name: purchase_cost
+        description: round (sum (purchase_cost),2)
+      - name: margin
+        description: round (sum (margin),2)
+  - name: int_orders_operational
+    columns:
+      - name: orders_id
+      - name: date_date
+      - name: revenue
+      - name: quantity
+      - name: purchase_cost
+      - name: margin
+      - name: shipping_fee
+      - name: logcost
+      - name: ship_cost
+        description: cast(sh.ship_cost AS FLOAT64)
+      - name: operational_margin
+        description: round ((margin + shipping_fee - logcost - cast(sh.ship_cost AS FLOAT64)),2)
+  - name: finance_days
+    columns:
+      - name: date_date,
+      - name: nb_transaction
+        description: count (orders_id)
+      - name: revenue
+        description: round (sum (revenue),2)
+      - name: average_basket
+        description: round (SAFE_divide (sum(revenue),count (orders_id)),2)
+      - name: margin
+        description: round (sum(margin),2)
+      - name: operational_margin
+        description: round (sum (operational_margin),2)
