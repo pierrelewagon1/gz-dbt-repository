@@ -1,0 +1,30 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: gz_raw_data
+    tables:
+      - name: sales
+        identifier: raw_gz_sales
+        description: table des ventes
+        columns:
+          - name: date_date
+          - name: orders_id
+          - name: pdt_id
+          - name: revenue
+          - name: quantity
+      - name: product
+        identifier: raw_gz_product
+        description: table des produits
+        columns:
+          - name: products_id
+          - name: purchSE_PRICE
+
+      - name: ship
+        identifier: raw_gz_ship
+        description: table des envois
+        columns:
+          - name: orders_id
+          - name: shipping_fee
+          - name: log_cost
+          - name: ship_cost
