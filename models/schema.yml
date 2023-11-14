@@ -3,8 +3,14 @@ version: 2
 sources:
   - name: raw
     schema: gz_raw_data
+    description: greenweez data raw
     tables:
       - name: sales
+        freshness:
+          warn_after:
+            count: 90
+            period: day
+        loaded_at_field: "CAST(date_date as TIMESTAMP)"
         identifier: raw_gz_sales
         description: table des ventes
         columns:
@@ -13,17 +19,26 @@ sources:
           - name: pdt_id
           - name: revenue
           - name: quantity
+        tests:
+          - unique:
+              column_name: "(orders_id ||'-'|| pdt_id)"
       - name: product
         identifier: raw_gz_product
         description: table des produits
         columns:
           - name: products_id
-          - name: purchSE_PRICE
+            description: primary key of the table
+            tests:
+              - unique
+          - name: purchase_price
       - name: ship
         identifier: raw_gz_ship
         description: table des envois
         columns:
           - name: orders_id
+            description: primary key of the table
+            tests:
+              - unique
           - name: shipping_fee
           - name: log_cost
           - name: ship_cost
