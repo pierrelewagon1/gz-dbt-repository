@@ -44,24 +44,6 @@ sources:
           - name: ship_cost
 
 models:
-  - name: stg_raw_sales
-    columns: 
-      - name: date_date
-      - name: orders_id
-      - name: pdt_id
-      - name: revenue
-      - name: quantity
-  - name: stg_raw__product
-    columns:
-      - name: products_id
-      - name: purchase_price
-        description: cast (purchse_price AS FLOAT64)
-  - name: stg_raw__ship
-    columns:
-      - name: orders_id
-      - name: shipping_fee
-      - name: logcost
-      - name: ship_cost
   - name: int_sales_margin
     columns:
       - name: orders_id
@@ -75,6 +57,9 @@ models:
   - name: int_orders_margin
     columns:
       - name: orders_id
+        description: primary key of the table
+        tests:
+              - unique
       - name: date_date
       - name: revenue
         description: round (sum (revenue),2)
@@ -87,6 +72,9 @@ models:
   - name: int_orders_operational
     columns:
       - name: orders_id
+        description: primary key of the table
+        tests:
+              - unique
       - name: date_date
       - name: revenue
       - name: quantity
