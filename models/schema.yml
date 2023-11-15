@@ -174,5 +174,13 @@ models:
             - ads_cost
             - ads_impression
             - ads_clicks
+  
+  - name: finance_campaigns_day
+    description: turnover et ads sur meme fichier par date
+    columns:
+      - name: date_date
+        tests:
+          - unique
+          - not_null
 
           
