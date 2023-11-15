@@ -42,6 +42,53 @@ sources:
           - name: shipping_fee
           - name: log_cost
           - name: ship_cost
+      - name: adwords
+        identifier: raw_gz_adwords
+        description: google analytics pub
+        columns:
+          - name: date_date
+          - name: paid_source
+          - name: campaign_key
+          - name: camPGN_name
+          - name: ads_cost
+          - name: impression
+          - name: click
+
+      - name: bing
+        identifier: raw_gz_bing
+        description: bing pub
+        columns:
+          - name: date_date
+          - name: paid_source
+          - name: campaign_key
+          - name: camPGN_name
+          - name: ads_cost
+          - name: impression
+          - name: click
+
+      - name: criteo
+        identifier: raw_gz_criteo
+        description: criteo pub
+        columns:
+          - name: date_date
+          - name: paid_source
+          - name: campaign_key
+          - name: camPGN_name
+          - name: ads_cost
+          - name: impression
+          - name: click
+
+      - name: facebook
+        identifier: raw_gz_facebook
+        description: facebook pub
+        columns:
+          - name: date_date
+          - name: paid_source
+          - name: campaign_key
+          - name: camPGN_name
+          - name: ads_cost
+          - name: impression
+          - name: click
 
 models:
   - name: int_sales_margin
@@ -59,7 +106,7 @@ models:
       - name: orders_id
         description: primary key of the table
         tests:
-              - unique
+          - unique
       - name: date_date
       - name: revenue
         description: round (sum (revenue),2)
@@ -74,7 +121,7 @@ models:
       - name: orders_id
         description: primary key of the table
         tests:
-              - unique
+          - unique
       - name: date_date
       - name: revenue
       - name: quantity
@@ -99,3 +146,48 @@ models:
         description: round (sum(margin),2)
       - name: operational_margin
         description: round (sum (operational_margin),2)
+
+  - name: int_campaigns
+    tests:
+      - unique:
+          column_name: "(date_date ||'-'|| campaign_key)"
+      - not_null:
+          column_name:
+            - date_date
+            - campaign_name
+  
+  - name: int_campaigns_day
+    columns:
+      - name: date_date
+        tests:
+          - unique
+          - not_null
+      - name: ads_cost
+        description: cout des pubs par jou
+      - name: ads_impression
+        description: nombre impressions totales par jour
+      - name: ads_clicks
+        description: nombre de clicks par jour
+    tests:
+      - not_null:
+          column_name:
+            - ads_cost
+            - ads_impression
+            - ads_clicks
+  
+  - name: finance_campaigns_day
+    description: turnover et ads sur meme fichier par date
+    columns:
+      - name: date_date
+        tests:
+          - unique
+          - not_null
+
+  - name: finance_campaigns_month
+    description: turnover et ads sur meme fichier par mois
+    columns:
+      - name: date_date
+        tests:
+          - unique
+          - not_null
+          
