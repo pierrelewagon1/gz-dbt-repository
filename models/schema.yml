@@ -155,3 +155,24 @@ models:
           column_name:
             - date_date
             - campaign_name
+  
+  - name: int_campaigns_day
+    columns:
+      - name: date_date
+        tests:
+          - unique
+          - not_null
+      - name: ads_cost
+        description: cout des pubs par jou
+      - name: ads_impression
+        description: nombre impressions totales par jour
+      - name: ads_clicks
+        description: nombre de clicks par jour
+    tests:
+      - not_null:
+          column_name:
+            - ads_cost
+            - ads_impression
+            - ads_clicks
+
+          
