@@ -183,4 +183,11 @@ models:
           - unique
           - not_null
 
+  - name: finance_campaigns_month
+    description: turnover et ads sur meme fichier par mois
+    columns:
+      - name: date_date
+        tests:
+          - unique
+          - not_null
           
